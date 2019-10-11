@@ -1,0 +1,8 @@
+danielmiessler/SecLists.git 
+rebootuser/LinEnum.git 
+sleventyeleven/linuxprivchecker.git
+maurosoria/dirsearch.git
+michenriksen/aquatone.git
+sullo/nikto.git
+xmendez/wfuzz.git
+OJ/gobuster.git
