@@ -1,4 +1,4 @@
-#FlaskMap: A Distributed Framework for NMAP
+# FlaskMap: A Distributed Framework for NMAP
 ##### Author: Will Eatherly | will.eatherly@gmail.com
 
 ### What is FlaskMap?
