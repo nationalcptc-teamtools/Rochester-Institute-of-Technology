@@ -31,16 +31,24 @@ def QueueLength():
 
 if __name__ == "__main__":
 
-    # Reads in commands from file and puts them in the queue
+     # Reads in commands from file and puts them in the queue
     # This command makes it so it will search in the local folder, regardless of OS
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    my_file = os.path.join(THIS_FOLDER, 'commands.txt')
+    my_file = os.path.join(THIS_FOLDER, 'targets.txt')
 
     # This file is not pre-populated. This will have to be done on the spot
     commands = open(my_file, "r")
+
+    targ = set()
+
     line = commands.readlines()
-    for i in line:
-        q.put(i)
+
+    for target in line:
+        targ.add(target)
+
+    for i in targ:
+        q.put("nmap -p- " + i)
+        q.put("nmap -p- -sU " + i)
         
     # starts the app
     app.run(debug=True)
