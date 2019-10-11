@@ -49,6 +49,7 @@ if __name__ == "__main__":
     for i in targ:
         q.put("nmap -p- " + i)
         q.put("nmap -p- -sU " + i)
-        
+
     # starts the app
-    app.run(debug=True)
+    # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+    app.run(debug=True, ssl_context=('cert.pem', 'key.pem'))
