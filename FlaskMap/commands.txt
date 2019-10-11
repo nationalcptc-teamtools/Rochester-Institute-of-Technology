@@ -1,0 +1,3 @@
+nmap -p- CIDR
+nmap -p- -sV CIDR
+nmap -p- -A CIDR
