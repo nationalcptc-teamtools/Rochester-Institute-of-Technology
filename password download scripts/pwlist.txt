@@ -1,0 +1,3 @@
+./testlist.txt
+//usr//share//wordlists//rockyou.txt
+
