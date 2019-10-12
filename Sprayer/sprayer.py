@@ -1,11 +1,9 @@
 """
 Author: Sunggwan Choi 
 Description: SSH, mysql, mongodb password sprayer for CPTC 
-    - God bless default passwords 
-
 
 <Note> 
-    - Need to upgrade paramiko, as default paramiko in python3 is 
+    - Need to upgrade paramiko, as default paramiko verion in python3 is 
 deprecated. 
     - pip3 install paramiko --upgrade
 
@@ -117,7 +115,7 @@ Param:
     - (str) user = Username to mysql login into
     - (str) pwd = Password to mysql login into 
 return:
-    - (print) Print statement of login successful, or nothing 
+    - (None) Print statement of login successful, or nothing 
 """
 def mysqlAttempt(ip,user,pwd):
     #if debug == True:
