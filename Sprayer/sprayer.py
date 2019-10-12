@@ -90,6 +90,24 @@ def sshAttempt(ip,user,pwd):
 	else:
 		print('[+] [SSH] Login Successful: '+ip+':'+user+':'+pwd)
 
+"""
+Description: Same as the function above, but uses private key 
+"""
+def sshkeyAttempt(ip, user, filename):
+	client = paramiko.SSHClient()
+	client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+	try:
+		key = paramiko.RSAKey.from_private_key_file(filename)
+		client.connect(ip, username=user, pkey=key)
+	except paramiko.AuthenticationException:
+		pass
+	except (paramiko.ssh_exception.NoValidConnectionsError, socket.timeout):
+		pass
+	#except paramiko.ssh_exception.SSHException:
+	#	print('[-] Convert OPENSSH into RSA private key ssh-keygen -p -m PEM -f <key>')
+	else:
+		print('[+] [SSH] [KEY] Login Successful:' +ip+':'+user+':'+filename)
 	
 """
 Name: mysqlAttempt
@@ -117,13 +135,13 @@ def mysqlAttempt(ip,user,pwd):
 
 # Parses argument from the user. IP address file, credential file, mode, debug 
 def parse():
-	parser = argparse.ArgumentParser()
+    	parser = argparse.ArgumentParser()
 
 	parser.add_argument('-i','--ip-list', dest='i', type=str, help="IP address list file", required=True)
 	parser.add_argument('-c','--cred-list', dest='c', type=str, help="Credential list file", required=True)
-	parser.add_argument('-m','--mode',dest='m',type=str,choices=['ssh','mysql','mongo','ftp'],
+	parser.add_argument('-m','--mode',dest='m',type=str,choices=['ssh','mysql','mongo','ftp','sshkey'],
 		help="Target services for password spraying.", required=True)
-	#parser.add_argument()
+	parser.add_argument('-k','--keyfile', dest='k', type=str, help='SSH private key file for sparying')
 
 	try:
 		arguments = parser.parse_args()
@@ -140,11 +158,14 @@ def main():
 	ipFilename = arguments.i
 	credFilename = arguments.c
 	modename = arguments.m
+	keyfilename = arguments.k
 
 	# Debug section for sanity check 
 	debug("IP filename", ipFilename)
 	debug("Credential filename", credFilename)
 	debug("Mode", modename)
+	if keyfilename:
+		debug("Key filename", keyfilename)
 	print()
 
 	# Parse ip file and credential files. 
@@ -158,6 +179,8 @@ def main():
 				thread = threading.Thread(target=sshAttempt, args=(item, cred, creds[cred]))
 			elif modename == "mysql":
 				thread = threading.Thread(target=mysqlAttempt, args=(item, cred, creds[cred]))
+			elif modename == "sshkey":
+				thread = threading.Thread(target=sshkeyAttempt, args=(item, cred, keyfilename))
 
 			# TODO : Coming soon... 
 			#elif modename == "mongo":
@@ -165,8 +188,9 @@ def main():
 
 			else:
 				print('[!] Please select the correct mode.')
+				#print('[testing]')
 				break
-
+			
 			thread.start()
 			time.sleep(0.1)
 
