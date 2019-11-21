@@ -1,0 +1,4 @@
+*.txt
+pwlists/
+!readme.txt
+!pwlisturl.txt
