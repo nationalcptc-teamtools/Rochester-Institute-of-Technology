@@ -1,0 +1,17 @@
+PowerShellMafia/PowerSploit.git
+danielmiessler/SecLists.git 
+CoreSecurity/impacket.git
+EmpireProject/Empire.git
+NetSPI/PowerUpSQL.git
+Veil-Framework/Veil.git
+jasonjfrank/gnmap-parser.git
+rebootuser/LinEnum.git 
+sleventyeleven/linuxprivchecker.git
+interference-security/kali-windows-binaries.git
+worawit/MS17-010.git
+maurosoria/dirsearch.git
+OJ/gobuster.git
+darkoperator/dnsrecon.git
+ShawnDEvans/smbmap.git
+portcullislabs/enum4linux.git
+vulnersCom/nmap-vulners.git
