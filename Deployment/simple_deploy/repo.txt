@@ -10,7 +10,6 @@ sleventyeleven/linuxprivchecker.git
 interference-security/kali-windows-binaries.git
 worawit/MS17-010.git
 maurosoria/dirsearch.git
-OJ/gobuster.git
 darkoperator/dnsrecon.git
 ShawnDEvans/smbmap.git
 portcullislabs/enum4linux.git
