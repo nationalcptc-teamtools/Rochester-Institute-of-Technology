@@ -1,0 +1,1 @@
+nmap -p- --max-retries 1 -T4 -v -oA ${1/"/"/"_"}_short_full_tcp $1

@@ -1,0 +1,1 @@
+nmap -sn --min-parallelism 100 --max-parallelism 256 -n $1 -oA subnet_ping

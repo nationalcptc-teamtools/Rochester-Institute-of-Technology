@@ -1,0 +1,1 @@
+nmap -sV -Pn -vv --script="mysql* and not mysql-brute" $1
