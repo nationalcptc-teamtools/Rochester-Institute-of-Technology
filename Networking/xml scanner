@@ -1,0 +1,92 @@
+import xml.etree.ElementTree as ET
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import PatternFill
+from openpyxl.styles import PatternFill, Border, Side
+import colorsys
+
+# load the Nmap XML file into the code
+nmap_xml = 'windows-new.xml'  # Replace with your XML file path
+tree = ET.parse(nmap_xml)
+root = tree.getroot()
+colors = [PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='solid'),  # light yellow
+          PatternFill(start_color='A5E8E3', end_color='A5E8E3', fill_type='solid')]  # light blue
+        #   PatternFill(start_color='FFCC99', end_color='FFCC99', fill_type='solid'),  # light orange
+        #   PatternFill(start_color='D3D3D3', end_color='D3D3D3', fill_type='solid')]  # light green
+
+# load / create an Excel workbook
+excel_file = 'windows-new.xlsx'
+try:
+    wb = load_workbook(excel_file)
+    ws = wb.active
+except FileNotFoundError:
+    wb = Workbook()
+    ws = wb.active
+    # excel headers
+    headers = ['Rank (H, M, L)', 'Tester Initials', 'Notes', 'IP Address', 'Port', 'Protocol', 'State', 'Service', 'Product', 'Version', 'Extra Info', 'OS Type']
+    ws.append(headers)
+
+# creates border style for lines
+border = Border(left=Side(style='thin'),
+                right=Side(style='thin'),
+                top=Side(style='thin'),
+                bottom=Side(style='thin'))
+
+# extracting IP addresses, ports, and services
+current_ip = None
+color_index = 0
+for host in root.findall('host'):
+    address = host.find('address')
+    if address is not None and address.get('addrtype') == 'ipv4':
+        ip_address = address.get('addr')
+
+        # check if we have a new IP address
+        if ip_address != current_ip:
+            current_ip = ip_address
+            color_index = (color_index + 1) % len(colors)  # alternate colors
+
+        # setting row colors
+        row_color = colors[color_index]
+
+        # extract port details
+        for port in host.find('ports').findall('port'):
+            port_id = int(port.get('portid'))
+            protocol = port.get('protocol')
+            state = port.find('state').get('state')
+            # only inlucde infomation for ports that are open
+            
+            if state =='open':
+                # get addtional info
+                service = port.find('service').get('name') if port.find('service') is not None else ''
+                product = port.find('service').get('product') if port.find('service') is not None and 'product' in port.find('service').attrib else ''
+                version = port.find('service').get('version') if port.find('service') is not None and 'version' in port.find('service').attrib else ''
+                extra_info = port.find('service').get('extrainfo') if port.find('service') is not None and 'extrainfo' in port.find('service').attrib else ''
+                os_type = host.find('os')  # get os if availible 
+            
+                # add row to the Excel sheet for each 
+                ws.append(['', '', '', ip_address, port_id, protocol, state, service, product, version, extra_info, os_type.text if os_type is not None else ''])
+
+                # add the wanted fill color to the current row
+                last_row = ws.max_row
+                for cell in ws[last_row]:
+                    cell.fill = row_color
+                    cell.border = border
+
+# adjust column width & format
+for col in ws.columns:
+    max_length = 0
+    column = col[0].column_letter  # Get the column name (A, B, C, etc.)
+
+    for cell in col:
+        try:
+            if cell.value:
+                max_length = max(max_length, len(str(cell.value)))
+        except:
+            pass
+
+    adjusted_width = (max_length + 2)  # added some padding to the width
+    ws.column_dimensions[column].width = adjusted_width
+
+# save the updated Excel file
+wb.save(excel_file)
+
+print(f"Extracted IPs, ports, and services and saved to {excel_file}")
