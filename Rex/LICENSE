@@ -1,0 +1,263 @@
+REX SOFTWARE LICENSE
+Version 1.0 — October 2026
+
+Copyright (c) 2026 Rochester Institute of Technology CPTC Team.
+All rights reserved.
+
+
+1. OVERVIEW
+
+Rex ("Software") is a custom-developed, proprietary software
+utility distributed in compiled binary form.
+
+The Software is made publicly available for educational,
+research, and authorized cybersecurity activities, including
+participation in the Collegiate Penetration Testing Competition
+(CPTC).
+
+Public availability does not constitute an open-source release,
+a transfer of ownership, or a waiver of intellectual property
+rights.
+
+All rights not expressly granted under this License are reserved
+by the copyright holders.
+
+
+2. GRANT OF LICENSE
+
+Subject to compliance with this License, the copyright holders
+grant users a limited, non-exclusive, royalty-free,
+non-transferable, revocable license to:
+
+  a. Download and execute the Software.
+  b. Use the Software for educational and research purposes.
+  c. Use the Software during authorized cybersecurity
+     assessments and competitions.
+
+No right to redistribute, sublicense, modify, or obtain the
+underlying source code is granted.
+
+The Software is licensed, not sold.
+
+
+3. REVERSE ENGINEERING AND MODIFICATION
+
+Except to the extent expressly permitted by applicable law,
+the following activities are strictly prohibited:
+
+  a. Reverse engineering the Software.
+  b. Decompiling or disassembling its binaries.
+  c. Attempting to recover, reconstruct, or derive its
+     source code, algorithms, or internal implementation.
+  d. Modifying, patching, or creating derivative works
+     based on the Software.
+  e. Circumventing technical protections or licensing
+     mechanisms incorporated into the Software.
+  f. Removing or altering copyright, attribution, or
+     licensing notices.
+  g. Using automated or manual analysis techniques
+     intended to reconstruct the Software's implementation.
+
+These restrictions apply to all distributed binaries,
+including executables, libraries, and bundled extensions.
+
+No permission to reverse engineer the Software is granted
+under this License.
+
+
+4. CPTC COMPLIANCE
+
+Any use of the Software in connection with a Collegiate
+Penetration Testing Competition (CPTC) event MUST comply
+with all applicable CPTC requirements.
+
+These include, but are not limited to:
+
+  a. The official CPTC Competition Rules.
+  b. The Rules of Engagement (ROE) for the applicable event.
+  c. The authorized Scope of Work (SOW).
+  d. Competition restrictions concerning permitted tools,
+     external resources, and testing environments.
+  e. Instructions and decisions issued by authorized
+     CPTC competition officials.
+
+Users MUST NOT employ the Software to:
+
+  a. Perform unauthorized security assessments.
+  b. Access infrastructure outside the authorized scope.
+  c. Interfere with competing teams or competition
+     infrastructure.
+  d. Circumvent competition restrictions or gain an
+     unfair competitive advantage.
+  e. Conduct activities expressly prohibited by CPTC
+     officials or the applicable Rules of Engagement.
+
+Permission to use the Software under this License does
+not imply approval for its use by CPTC organizers.
+
+In the event of a conflict between the permissions granted
+by this License and the applicable CPTC competition rules,
+the more restrictive applicable requirement governs the
+user's conduct during the competition.
+
+Users are solely responsible for verifying that their use
+of the Software is permitted under the rules applicable
+to their specific competition.
+
+Official CPTC rules:
+https://cp.tc/docs/cptc-rules.pdf
+
+
+5. AUTHORIZED USE
+
+The Software must only be used on systems, networks, and
+applications that the user owns or has explicit authorization
+to assess.
+
+Users must comply with all applicable laws, regulations,
+and contractual obligations.
+
+This License does not authorize access to any third-party
+system or infrastructure.
+
+The copyright holders reserve the right to revoke permission
+to use the Software in accordance with applicable law.
+
+
+6. INTELLECTUAL PROPERTY
+
+All rights, title, and interest in the Software, including
+its source code, architecture, algorithms, and implementation,
+remain with their respective copyright holders.
+
+No ownership rights are transferred through downloading,
+possessing, or executing the Software.
+
+No patent, trademark, or other intellectual property rights
+are granted except as expressly stated herein.
+
+The Software and all associated intellectual property are
+protected by applicable copyright and intellectual property
+laws.
+
+
+7. REDISTRIBUTION
+
+Redistribution of the Software is strictly prohibited without
+prior written authorization from the copyright holders.
+
+Users MUST NOT:
+
+  a. Redistribute, republish, or rehost the Software.
+  b. Upload the Software to third-party repositories,
+     package registries, or distribution platforms.
+  c. Share or distribute copies of the Software binaries.
+  d. Sublicense, sell, rent, lease, or otherwise transfer
+     the Software to third parties.
+  e. Bundle the Software with other products or services
+     for distribution.
+
+This restriction applies to all compiled binaries, executables,
+libraries, extensions, and other components of the Software.
+
+Public availability of the Software does not grant permission
+for redistribution.
+
+Only the copyright holders or parties explicitly authorized
+in writing by them may distribute the Software.
+
+
+8. DISCLAIMER OF WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NONINFRINGEMENT.
+
+THE COPYRIGHT HOLDERS MAKE NO GUARANTEE THAT THE SOFTWARE
+IS ERROR-FREE, SECURE, OR SUITABLE FOR ANY PARTICULAR
+SECURITY ASSESSMENT OR COMPETITION.
+
+THE SOFTWARE MAY CONTAIN DEFECTS, VULNERABILITIES, OR
+UNEXPECTED BEHAVIOR.
+
+USE OF THE SOFTWARE IS ENTIRELY AT THE USER'S OWN RISK.
+
+
+9. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE
+COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE, MISUSE,
+OR INABILITY TO USE THE SOFTWARE.
+
+THIS INCLUDES, WITHOUT LIMITATION, DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES,
+INCLUDING LOSS OF DATA, BUSINESS INTERRUPTION, OR
+COMPROMISE OF SYSTEMS.
+
+USERS ASSUME FULL RESPONSIBILITY FOR THEIR USE OF THE
+SOFTWARE AND ANY CONSEQUENCES ARISING FROM SUCH USE.
+
+
+10. TERMINATION
+
+The rights granted under this License terminate automatically
+upon violation of its terms.
+
+Upon termination, the user must immediately:
+
+  a. Cease using the Software.
+  b. Delete all copies of the Software in their possession
+     or control, except where retention is required by law.
+  c. Cease any activity involving the Software that is
+     prohibited under this License.
+
+Termination does not limit any legal remedies available
+to the copyright holders.
+
+Sections concerning intellectual property, reverse engineering,
+redistribution restrictions, warranty disclaimers, and
+limitations of liability survive termination to the extent
+permitted by applicable law.
+
+
+11. THIRD-PARTY COMPONENTS
+
+Any third-party components distributed with the Software
+remain subject to their respective licenses.
+
+Nothing in this License supersedes rights granted under
+applicable third-party licenses.
+
+Where third-party license terms conflict with this License,
+those terms govern the respective third-party components.
+
+
+12. NO OFFICIAL CPTC ENDORSEMENT
+
+Rex is custom-developed software attributed to the
+Rochester Institute of Technology CPTC Team.
+
+Its distribution does not imply sponsorship, certification,
+approval, or endorsement by the Collegiate Penetration
+Testing Competition or its organizers.
+
+Any reference to CPTC is provided solely to establish
+competition-related usage requirements.
+
+
+13. ACCEPTANCE OF TERMS
+
+By downloading, installing, executing, or otherwise using
+the Software, the user agrees to comply with the terms
+and conditions of this License.
+
+If the user does not agree to these terms, they must
+not download, install, execute, or use the Software.
+
+Nothing in this section limits rights that cannot lawfully
+be excluded or restricted.
+
+
+END OF LICENSE
